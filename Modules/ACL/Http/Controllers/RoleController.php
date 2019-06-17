@@ -17,7 +17,7 @@ use Session;
 class RoleController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'isAdmin']);//isAdmin middleware lets only users with a //specific permission permission to access these resources
+       // $this->middleware(['auth', 'isAdmin']);//isAdmin middleware lets only users with a //specific permission permission to access these resources
     }
 
     /**
@@ -50,17 +50,19 @@ class RoleController extends Controller
      */
     public function store(Request $request) {
         //Validate name and permissions field
-        $this->validate($request, [
+        $request->validate([
                 'name'=>'required|unique:roles|max:10',
                 'permissions' =>'required',
-            ]
-        );
+            ]);
 
+     /*   echo '<pre>';
+        var_dump($request);
+        die();*/
         $name = $request['name'];
         $role = new Role();
         $role->name = $name;
 
-        $permissions = $request['permission'];
+        $permissions = $request['permissions'];
 
         $role->save();
         //Looping thru selected permissions
@@ -71,7 +73,7 @@ class RoleController extends Controller
             $role->givePermissionTo($p);
         }
 
-        return redirect()->route('acl::role-index')
+        return redirect()->route('role.list')
             ->with('flash_message',
                 'Role'. $role->name.' added!');
     }
@@ -115,8 +117,8 @@ class RoleController extends Controller
             'permissions' =>'required',
         ]);
 
-        $input = $request->except(['permission']);
-        $permissions = $request['permission'];
+        $input = $request->except(['permissions']);
+        $permissions = $request['permissions'];
         $role->fill($input)->save();
 
         $p_all = Permission::all();//Get all permissions

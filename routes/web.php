@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/about' , function () {
+   return 'you are special';
+});
 
 
 /*Route::get('/', 'PostController@index')->name('home');*/

@@ -16,9 +16,9 @@ Route::prefix('user')->group(function() {
     Route::get('/create', 'UserController@create')->name('user.create');
     Route::post('/', 'UserController@store')->name('user.store');
     Route::get('/show/{id}', 'UserController@show')->name('user.show');
-    Route::get('/edit/{id}', 'UserController@edit')->name('user.edit');
-    Route::put('/', 'UserController@update')->name('user.update');
-    Route::get('/delete/{id}','UserController@destroy')->name('user.destroy');
+    Route::get('/{id}/edit', 'UserController@edit')->name('user.edit');
+    Route::put('/show/{id}', 'UserController@update')->name('user.update');
+    Route::delete('/delete/{id}','UserController@destroy')->name('user.destroy');
 });
 Auth::routes();
 

@@ -21,7 +21,7 @@ Route::prefix('permission')->group(function() {
     Route::get('/show/{id}', 'PermissionController@show')->name('permission.show');
     Route::get('/{id}/edit', 'PermissionController@edit')->name('permission.edit');
     Route::put('/show/{id}', 'PermissionController@update')->name('permission.update');
-    Route::get('/delete/{id}','PermissionController@destroy')->name('permission.destroy');
+    Route::delete('/delete/{id}','PermissionController@destroy')->name('permission.destroy');
 });
 Route::prefix('role')->group(function() {
     Route::get('/', 'RoleController@index')->name('role.list');
@@ -30,5 +30,5 @@ Route::prefix('role')->group(function() {
     Route::get('/show/{id}', 'RoleController@show')->name('role.show');
     Route::get('/{id}/edit', 'RoleController@edit')->name('role.edit');
     Route::put('/show/{id}', 'RoleController@update')->name('role.update');
-    Route::get('/delete/{id}','RoleController@destroy')->name('role.destroy');
+    Route::delete('/delete/{id}','RoleController@destroy')->name('role.destroy');
 });

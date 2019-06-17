@@ -84,7 +84,7 @@ class PermissionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        return redirect('permissions');
+        return redirect('permission');
     }
 
     /**
@@ -128,17 +128,16 @@ class PermissionController extends Controller
      */
     public function destroy($id) {
         $permission = Permission::findOrFail($id);
-
         //Make it impossible to delete this specific permission
         if ($permission->name == "Administer roles & permissions") {
-            return redirect()->route('acl::permission-index')
+            return redirect()->route('permission.list')
                 ->with('flash_message',
                     'Cannot delete this Permission!');
         }
 
         $permission->delete();
 
-        return redirect()->route('acl::permission-index')
+        return redirect()->route('permission.list')
             ->with('flash_message',
                 'Permission deleted!');
 

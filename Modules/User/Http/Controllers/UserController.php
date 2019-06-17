@@ -19,7 +19,7 @@ class UserController extends Controller
 {
 
     public function __construct() {
-        $this->middleware(['auth', 'isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+       // $this->middleware(['auth', 'isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
     }
     /**
      * Display a listing of the resource.
@@ -66,7 +66,7 @@ class UserController extends Controller
             }
         }
         //Redirect to the users.index view and display message
-        return redirect()->route('user::index')
+        return redirect()->route('user.list')
             ->with('flash_message',
                 'User successfully added.');
     }
@@ -105,7 +105,7 @@ class UserController extends Controller
         $user = User::findOrFail($id); //Get role specified by id
 
         //Validate name, email and password fields
-        $this->validate($request, [
+        $request->validate([
             'name'=>'required|max:120',
             'email'=>'required|email|unique:users,email,'.$id,
             'password'=>'required|min:6|confirmed'
@@ -120,7 +120,7 @@ class UserController extends Controller
         else {
             $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
         }
-        return redirect()->route('user::index')
+        return redirect()->route('user.list')
             ->with('flash_message',
                 'User successfully edited.');
     }
@@ -135,7 +135,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('user::index')
+        return redirect()->route('user.list')
             ->with('flash_message',
                 'User successfully deleted.');
     }
