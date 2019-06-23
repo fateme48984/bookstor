@@ -14,7 +14,7 @@ class PostController extends Controller
 {
 
     public function __construct() {
-        $this->middleware(['auth', 'clearance'])->except('index', 'show');
+        $this->middleware(['auth', 'clearance']);
     }
 
 
@@ -94,7 +94,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'title'=>'required|max:100',
             'body'=>'required',
         ]);
@@ -104,7 +104,7 @@ class PostController extends Controller
         $post->body = $request->input('body');
         $post->save();
 
-        return redirect()->route('post::show',
+        return redirect()->route('post.show',
             $post->id)->with('flash_message',
             'Article, '. $post->title.' updated');
     }
@@ -119,7 +119,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->delete();
 
-        return redirect()->route('post::index')
+        return redirect()->route('post.index')
             ->with('flash_message',
                 'Article successfully deleted');
 

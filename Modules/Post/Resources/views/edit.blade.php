@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', '| Edit Post')
 
@@ -9,7 +9,7 @@
 
             <h1>Edit Post</h1>
             <hr>
-            {{ Form::model($post, array('route' => array('posts.update', $post->id), 'method' => 'PUT')) }}
+            {{ Form::model($post, array('route' => array('post.update', $post->id), 'method' => 'PUT')) }}
             <div class="form-group">
                 {{ Form::label('title', 'Title') }}
                 {{ Form::text('title', null, array('class' => 'form-control')) }}<br>
