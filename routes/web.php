@@ -10,24 +10,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/','SiteController@index');
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 Route::get('/about' , function () {
    return 'you are special';
 });
 
+Route::resource('test', 'TestController');
+
 
 /*Route::get('/', 'PostController@index')->name('home');*/
 
-Route::resource('users', 'UserController');
-
-Route::resource('roles', 'RoleController');
-
-Route::resource('permissions', 'PermissionController');
-
-Route::resource('posts', 'PostController');
 
 

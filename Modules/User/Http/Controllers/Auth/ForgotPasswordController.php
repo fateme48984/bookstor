@@ -20,6 +20,10 @@ class ForgotPasswordController extends Controller
 
     use SendsPasswordResetEmails;
 
+    protected function redirectTo()
+    {
+        return '/user';
+    }
     /**
      * Create a new controller instance.
      *

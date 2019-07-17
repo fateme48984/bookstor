@@ -19,7 +19,7 @@ class UserController extends Controller
 {
 
     public function __construct() {
-         $this->middleware(['auth', 'isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+         $this->middleware(['auth'/*, 'isAdmin'*/]); //isAdmin middleware lets only users with a //specific permission permission to access these resources
     }
     /**
      * Display a listing of the resource.
@@ -57,7 +57,7 @@ class UserController extends Controller
 
         $user = User::create($request->only('email', 'name', 'password')); //Retrieving only the email and password data
 
-        $roles = $request['roles']; //Retrieving the roles field
+    /*    $roles = $request['roles']; //Retrieving the roles field
         //Checking if a role was selected
         if (isset($roles)) {
 
@@ -65,11 +65,11 @@ class UserController extends Controller
                 $role_r = Role::where('id', '=', $role)->firstOrFail();
                 $user->assignRole($role_r); //Assigning role to user
             }
-        }
+        }*/
         //Redirect to the users.index view and display message
         return redirect()->route('user.list')
             ->with('flash_message',
-                'User successfully added.');
+                'کاربر جدید با موفقیت ایجاد شد ');
     }
 
     /**
@@ -123,7 +123,7 @@ class UserController extends Controller
         }
         return redirect()->route('user.list')
             ->with('flash_message',
-                'User successfully edited.');
+                'کاربر با موفقیت ویرایش شد');
     }
 
     /**
@@ -138,6 +138,6 @@ class UserController extends Controller
 
         return redirect()->route('user.list')
             ->with('flash_message',
-                'User successfully deleted.');
+                'کاربر با موفقیت حذف شد');
     }
 }

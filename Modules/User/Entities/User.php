@@ -44,4 +44,30 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+
+    public function author()
+    {
+        return $this->hasMany('Modules\Books\Entities\Author');
+    }
+
+    public function translator()
+    {
+        return $this->hasMany('Modules\Books\Entities\Translator');
+    }
+
+    public function publisher()
+    {
+        return $this->hasMany('Modules\Books\Entities\Publisher');
+    }
+
+    public function book()
+    {
+        return $this->hasMany('Modules\Books\Entities\Book');
+    }
+
+    public function category()
+    {
+        return $this->hasMany('Modules\Books\Entities\Category');
+    }
 }

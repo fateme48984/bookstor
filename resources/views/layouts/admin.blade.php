@@ -8,22 +8,26 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'پنل مدیریت | معرفی کتاب') }}</title>
-    <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/adminlte.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap-rtl.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom-style.css') }}" rel="stylesheet">
+    <script src="{{ asset('public/js/app.js') }}" ></script>
 
-    <!-- Scripts -->
+    <link href="{{ asset('public/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/adminlte.min.css') }}" rel="stylesheet"  type="text/css" >
+    <link href="{{ asset('public/css/admin.css') }}" rel="stylesheet"  type="text/css" >
+    <link href="{{ asset('public/css/bootstrap-rtl.min.css') }}" rel="stylesheet" type="text/css" >
+    <link href="{{ asset('public/css/custom-style.css') }}" rel="stylesheet" type="text/css" >
+
+
+
+<!-- Scripts -->
 {{--
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('public/js/app.js') }}" defer></script>
 --}}
 
 
     <!-- Styles -->
 {{--
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 --}}
 </head>
 <body class="hold-transition sidebar-mini">
@@ -36,6 +40,17 @@
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="{{ url('/') }}" target="_blank" class="nav-link">خانه</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a class="nav-link" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                    {{ ('خروج') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </li>
         {{--    <li class="nav-item d-none d-sm-inline-block">
                 <a href="#" class="nav-link">تماس</a>
@@ -76,298 +91,159 @@
                         <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
-
+ 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
-                        <li class="nav-item has-treeview menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fa fa-dashboard"></i>
+
+
+
+                        <li class="nav-item has-treeview @if(\Request::route()->getPrefix() == '/user')menu-open @endif">
+                            <a href="#" class="nav-link @if(\Request::route()->getPrefix() == '/user')active @endif">
+                                <i class="nav-icon fa fa-users"></i>
                                 <p>
-                                    داشبوردها
+                                    مدیریت کاربران
                                     <i class="right fa fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link">
+                                    <a href="{{ route('user.list') }}" class="nav-link @if(\Request::route()->getName() == 'user.list' || \Request::route()->getName() == 'user.edit')active @endif">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>داشبورد اول</p>
+                                        <p>لیست کاربران</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link active">
+                                    <a href="{{ route('user.create') }}" class="nav-link @if(\Request::route()->getName() == 'user.create')active @endif">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>داشبورد دوم</p>
+                                        <p>کاربر جدید</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>داشبورد سوم</p>
-                                    </a>
-                                </li>
+
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-pie-chart"></i>
-                                <p>
-                                    چارت‌ها
-                                    <i class="right fa fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/charts/chartjs.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>نمودار ChartJS</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/charts/flot.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>نمودار Flot</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/charts/inline.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>نمودار Inline</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-tree"></i>
-                                <p>
-                                    اشیای گرافیکی
-                                    <i class="fa fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/UI/general.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>عمومی</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/UI/icons.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>آیکون‌ها</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/UI/buttons.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>دکمه‌ها</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/UI/sliders.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>اسلایدر‌ها</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-edit"></i>
-                                <p>
-                                    فرم‌ها
-                                    <i class="fa fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/forms/general.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>اجزا عمومی</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/forms/advanced.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>پیشرفته</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/forms/editors.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>ویشرایشگر</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-table"></i>
-                                <p>
-                                    جداول
-                                    <i class="fa fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/tables/simple.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>جداول ساده</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/tables/data.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>جداول داده</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-header">مثال‌ها</li>
-                        <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
-                                <i class="nav-icon fa fa-calendar"></i>
-                                <p>
-                                    تقویم
-                                    <span class="badge badge-info right">2</span>
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-envelope-o"></i>
-                                <p>
-                                    ایمیل‌ باکس
-                                    <i class="fa fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/mailbox/mailbox.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>اینباکس</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/mailbox/compose.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>ایجاد</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/mailbox/read-mail.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>خواندن</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
+                        <li class="nav-item has-treeview @if(\Request::route()->getPrefix() == '/book')menu-open @endif">
+                            <a href="#" class="nav-link @if(\Request::route()->getPrefix() == '/book')active @endif">
                                 <i class="nav-icon fa fa-book"></i>
                                 <p>
-                                    صفحات
-                                    <i class="fa fa-angle-left right"></i>
+                                  مدیریت کتاب ها
+                                    <i class="right fa fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/examples/invoice.html" class="nav-link">
+                                    <a href="{{ route('book.list') }}" class="nav-link @if(\Request::route()->getName() == 'book.list' || \Request::route()->getName() == 'book.edit')active @endif">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>سفارشات</p>
+                                        <p>لیست کتاب ها</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/examples/profile.html" class="nav-link">
+                                    <a href="{{ route('book.create') }}" class="nav-link @if(\Request::route()->getName() == 'book.create')active @endif">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>پروفایل</p>
+                                        <p>کتاب جدید</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="pages/examples/login.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>صفحه ورود</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/examples/register.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>صفحه عضویت</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/examples/lockscreen.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>قفل صفحه</p>
-                                    </a>
-                                </li>
+
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-plus-square-o"></i>
+                        <li class="nav-item has-treeview @if(\Request::route()->getPrefix() == '/author')menu-open @endif">
+                            <a href="#" class="nav-link @if(\Request::route()->getPrefix() == '/author')active @endif">
+                                <i class="nav-icon fa fa-pencil"></i>
                                 <p>
-                                    بیشتر
+                                    مدیریت نویسندگان
                                     <i class="fa fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/examples/404.html" class="nav-link">
+                                    <a href="{{ route('author.list') }}" class="nav-link @if(\Request::route()->getName() == 'author.list' || \Request::route()->getName() == 'author.edit')active @endif">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>ارور 404</p>
+                                        <p>لیست نویسندگان</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/examples/500.html" class="nav-link">
+                                    <a href="{{ route('author.create') }}" class="nav-link @if( \Request::route()->getName() == 'author.create')active @endif">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>ارور 500</p>
+                                        <p>نویسنده جدید</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview @if(\Request::route()->getPrefix() == '/cat')menu-open @endif">
+                            <a href="#" class="nav-link @if(\Request::route()->getPrefix() == '/cat')active @endif">
+                                <i class="nav-icon fa fa-list"></i>
+                                <p>
+                                    مدیریت موضوعات
+                                    <i class="fa fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('cat.list') }}" class="nav-link  @if(\Request::route()->getName() == 'cat.list' || \Request::route()->getName() == 'cat.edit')active @endif">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>لیست موضوعات</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/examples/blank.html" class="nav-link">
+                                    <a href="{{ route('cat.create') }}" class="nav-link  @if(\Request::route()->getName() == 'cat.create')active @endif">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>صفحه خالی</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="starter.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>صفحه شروع</p>
+                                        <p>موضوع جدید</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-header">متفاوت</li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-file"></i>
-                                <p>مستندات</p>
+                        <li class="nav-item has-treeview @if(\Request::route()->getPrefix() == '/translator')menu-open @endif">
+                            <a href="#" class="nav-link @if(\Request::route()->getPrefix() == '/translator')active @endif">
+                                <i class="nav-icon fa fa-language"></i>
+                                <p>
+                                  مدیریت مترجم ها
+                                    <i class="fa fa-angle-left right"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('translator.list') }}" class="nav-link  @if(\Request::route()->getName() == 'translator.list' || \Request::route()->getName() == 'translator.edit')active @endif">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>لیست مترجم ها</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('translator.create') }}" class="nav-link  @if(\Request::route()->getName() == 'translator.create')active @endif">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>مترجم جدید</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-header">برچسب‌ها</li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-circle-o text-danger"></i>
-                                <p class="text">مهم</p>
+
+                        <li class="nav-item has-treeview @if(\Request::route()->getPrefix() == '/publisher')menu-open @endif">
+                            <a href="#" class="nav-link @if(\Request::route()->getPrefix() == '/publisher')active @endif">
+                                <i class="nav-icon fa fa-newspaper-o"></i>
+                                <p>
+                                    مدیریت انتشارات
+                                    <i class="fa fa-angle-left right"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('publisher.list') }}" class="nav-link  @if(\Request::route()->getName() == 'publisher.list' || \Request::route()->getName() == 'publisher.edit')active @endif">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>لیست انتشارات</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('publisher.create') }}" class="nav-link  @if(\Request::route()->getName() == 'publisher.create')active @endif">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>انتشارات جدید</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-circle-o text-warning"></i>
-                                <p>هشدار</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-circle-o text-info"></i>
-                                <p>اطلاعات</p>
-                            </a>
-                        </li>
+
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -377,7 +253,7 @@
     </aside>
     <div class="content-wrapper">
         <div class="content-header">
-            <div class="container-fluid">
+        {{--    <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0 text-dark">داشبورد دوم</h1>
@@ -389,7 +265,7 @@
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
+            </div>--}}<!-- /.container-fluid -->
         </div>
 
 
@@ -417,9 +293,10 @@
 
 </div>
 
-<script src="{{ asset('js/jquery.min.js') }}" defer></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}" defer></script>
-<script src="{{ asset('js/adminlte.js') }}" defer></script>
+<script src="{{ asset('public/js/jquery.min.js') }}" ></script>
+<script src="{{ asset('public/js/bootstrap.bundle.min.js') }}" ></script>
+<script src="{{ asset('public/js/adminlte.js') }}" ></script>
+<script src="{{ asset('public/js/admin.js') }}" ></script>
 
 </body>
 </html>

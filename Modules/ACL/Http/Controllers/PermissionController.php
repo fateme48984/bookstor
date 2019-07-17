@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use Session;
+use Symfony\Component\Routing\Route;
 
 class PermissionController extends Controller
 {
